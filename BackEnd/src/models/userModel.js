@@ -1,8 +1,9 @@
 const connection = require('./connection');
 
-const getAll = async () => {
-    const [users] = await connection.execute('SELECT * FROM userData');
-    return users;
+const getEmail = async (email) => {
+    const [user] = await connection.execute('SELECT email FROM usuario WHERE email = ?;', [email]); 
+    
+    return user;
 };
 
 const signUp = async (userData) => {
@@ -13,9 +14,6 @@ const signUp = async (userData) => {
     const query = 'INSERT INTO usuario(nome, email, senha, data_criacao, data_atualizacao, ultimo_login, token) VALUES (?,?,?,?,?,?,?)';
 
     const [created] = await connection.execute(query,[nome, email, senha, dateUTC, dateUTC, dateUTC, 'token']);
-    //connection.execute(query,[nome, email, senha, dateUTC, dateUTC, dateUTC, 'token']).then(response => {
-    //    console.log(response);
-    //})
 
     telefones.forEach(async element => {
         const telQuery = 'INSERT INTO telefone(numero, ddd, usuario_id) VALUES (?,?,?)';     
@@ -35,5 +33,5 @@ const signUp = async (userData) => {
 
 module.exports = {
     signUp,
-    getAll
+    getEmail
 }
