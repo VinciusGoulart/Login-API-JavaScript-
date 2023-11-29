@@ -4,6 +4,7 @@ const userMiddleware = require('./middlewares/userMiddleware');
 
 const router = express.Router();
 
-router.post('/signin', userMiddleware.validateUserEmail, userController.signUp)
+router.post('/signup', userMiddleware.validateUserEmail, userController.signUp);
+router.post('/signin', userMiddleware.validateUser,userController.signIn)
 
 module.exports = router;
