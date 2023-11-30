@@ -1,10 +1,11 @@
 const connection = require('./connection');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 const secret = process.env.SECRET
 
-const getEmail = async (email) => {
+const getByEmail = async (email) => {
     const [user] = await connection.execute('SELECT email,senha FROM usuario WHERE email = ?;', [email]);
 
     return user;
@@ -13,19 +14,21 @@ const getEmail = async (email) => {
 const signUp = async (userData) => {
     const { nome, email, senha, telefones } = userData;
 
+    const hashedPassword = await bcrypt.hash(senha, 10);
+
     const dateUTC = new Date(Date.now()).toUTCString();
 
     const query = 'INSERT INTO usuario(nome, email, senha, data_criacao, data_atualizacao, ultimo_login, token) VALUES (?,?,?,?,?,?,?)';
 
-    const [created] = await connection.execute(query, [nome, email, senha, dateUTC, dateUTC, dateUTC, '']);
+    const [created] = await connection.execute(query, [nome, email, hashedPassword, dateUTC, dateUTC, dateUTC, '']);
 
     telefones.forEach(async element => {
         const telQuery = 'INSERT INTO telefone(numero, ddd, usuario_id) VALUES (?,?,?)';
 
         await connection.execute(telQuery, [element.numero, element.ddd, created.insertId]);
     });
-    
-    const token = await createJWtToken(created.insertId);    
+
+    const token = await createJWtToken(created.insertId);
 
     return {
         id: created.insertId,
@@ -37,7 +40,7 @@ const signUp = async (userData) => {
 };
 
 const signIn = async (userData) => {
-    const {email} = userData;
+    const { email } = userData;
 
     const dateUTC = new Date(Date.now()).toUTCString();
 
@@ -45,10 +48,10 @@ const signIn = async (userData) => {
 
     const [user] = await connection.execute(query, [email]);
 
-    const {id, data_criacao, data_atualizacao} = user[0];
+    const { id, data_criacao, data_atualizacao } = user[0];
 
-    const token = await createJWtToken(id);  
-    
+    const token = await createJWtToken(id);
+
     return {
         id,
         data_criacao,
@@ -56,20 +59,20 @@ const signIn = async (userData) => {
         ultimo_login: dateUTC,
         token
     };
-}
+};
 
-const createJWtToken = async (id) =>{
-    const token = jwt.sign({id},secret,{expiresIn: 50});
+const createJWtToken = async (id) => {
+    const token = jwt.sign({ id }, secret, { expiresIn: 1800 });
 
     const query = 'UPDATE usuario SET token = ? WHERE id = ?';
 
-    await connection.execute(query,[token,id]);
+    await connection.execute(query, [token, id]);
 
     return token;
-}
+};
 
 module.exports = {
     signUp,
-    getEmail,
+    getByEmail,
     signIn
-}
+};

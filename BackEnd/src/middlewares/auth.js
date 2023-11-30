@@ -7,24 +7,24 @@ const authenticateToken = (request, response, next) => {
     const token = request.header('Authentication');
 
     if (!token) {
-        return response.status(401).json({ menssagem: 'Token não fornecido' });
+        return response.status(401).json({ mensagem: 'Token não fornecido' });
     }
-   
+
     const [bearer, tokenValue] = token.split(' ');
 
     if (bearer !== 'Bearer' || !tokenValue) {
-        return response.status(401).json({ menssagem: 'Formato de token inválido' });
+        return response.status(401).json({ mensagem: 'Formato de token inválido' });
     }
 
     jwt.verify(tokenValue, secret, (err, decoded) => {
         if (err) {
             if (err instanceof jwt.TokenExpiredError) {
-                return response.status(403).json({ menssagem: 'Sessão inválida' });
-            }else{
-                return response.status(403).json({ menssagem: 'Não autorizado' });
-            }            
-        }
-        
+                return response.status(403).json({ mensagem: 'Sessão inválida' });
+            } else {
+                return response.status(403).json({ mensagem: 'Não autorizado' });
+            };
+        };
+
         request.id = decoded.userId;
         next();
     });
@@ -32,4 +32,4 @@ const authenticateToken = (request, response, next) => {
 
 module.exports = {
     authenticateToken
-}
+};
