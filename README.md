@@ -7,6 +7,9 @@ O projeto foi desenvolvido com finalidade de aprendizado e teste de conhecimento
 - `18.231.164.112:3333/`
 - `18.231.164.112:3333/email/'example@email.com'`
 - `18.231.164.112:3333/signup`
+- `18.231.164.112:3333/signin`
+
+  !!É POSSIVEL QUE OS ENDPOINTS NAO FUNCIONEM POR MOTIVOS DE HOSPEDAGEM GRATUITAS!!
 
 ## Pre-requisitos
 Antes de iniciar o projeto é necessario ter instalado em sua maquina:
@@ -33,7 +36,11 @@ npm run dev
 ```
 
 ## Modo de uso
-Com Postman/Insomnia aberto basta realizar uma requisicao em um dos Endpoints listado acima.
+Com Postman/Insomnia aberto basta realizar uma requisicao em um dos Endpoints:
+
+-'seu_host':'porta'/signup
+-'seu_host':'porta'/signin
+-'seu_host':'porta'/email/'example@email.com'`
 
 ## Ferramentas e linguagem
 Foi utilizado as seguintes ferramentas e linguagem no projeto:
@@ -43,4 +50,5 @@ Foi utilizado as seguintes ferramentas e linguagem no projeto:
 - AWS
 - Dockers
 - MySql
+- Jwt
 - GitHub
