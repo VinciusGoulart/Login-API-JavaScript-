@@ -1,0 +1,9 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "User",
+        "description": "Documentation from user API",
+        "version":"1.0.0" 
+    },
+    "basepath": "/"
+}
