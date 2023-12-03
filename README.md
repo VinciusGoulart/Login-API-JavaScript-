@@ -41,6 +41,7 @@ Com Postman/Insomnia aberto basta realizar uma requisicao em um dos Endpoints:
 - 'seu_host':'porta'/signup
 - 'seu_host':'porta'/signin
 - 'seu_host':'porta'/email/'example@email.com'`
+- 'seu_host':'porta'/swagger-docs/
 
 ## Ferramentas e linguagem
 Foi utilizado as seguintes ferramentas e linguagem no projeto:

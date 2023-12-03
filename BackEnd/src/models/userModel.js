@@ -44,7 +44,7 @@ const signIn = async (userData) => {
 
     const dateUTC = new Date(Date.now()).toUTCString();
 
-    const query = 'SELECT id,data_criacao,data_atualizacao,token FROM usuario WHERE email = ?;';
+    const query = 'SELECT id,data_criacao,data_atualizacao,token FROM usuario WHERE email = ?';
 
     const [user] = await connection.execute(query, [email]);
 

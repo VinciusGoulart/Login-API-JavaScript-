@@ -23,8 +23,7 @@ const validateUser = async (request, response, next) => {
 
     const [user] = await userModal.getByEmail(email);
 
-
-    if (user.length === 0 || !bcrypt.compareSync(senha, user.senha)) {
+    if (!user || !bcrypt.compareSync(senha, user.senha)) {
         return response.status(401).json({ mensagem: 'Usuario e/ou senha invalida' });
     };
 
